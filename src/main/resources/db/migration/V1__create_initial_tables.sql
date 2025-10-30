@@ -2,7 +2,7 @@ CREATE TABLE project (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description VARCHAR(255),
-    startDate DATE NOT NULL,
+    startDate DATE,
     endDate DATE
 );
 
@@ -14,8 +14,8 @@ CREATE TABLE task (
     project_id BIGINT NOT NULL,
     title VARCHAR(150) NOT NULL,
     description TEXT,
-    status task_status NOT NULL,
-    priority task_priority NOT NULL,
+    status task_status,
+    priority task_priority,
     due_date DATE,
 
     CONSTRAINT fk_task_project
