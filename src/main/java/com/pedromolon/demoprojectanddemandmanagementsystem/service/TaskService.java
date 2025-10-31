@@ -34,7 +34,7 @@ public class TaskService {
     @Transactional
     public TaskResponse createTask(TaskRequest request) {
         Project project = projectRepository.findById(request.projectId())
-                .orElseThrow(() -> new IllegalArgumentException("Project not found for id: " + request.projectId()));
+                .orElseThrow(() -> new EntityNotFoundException("Project not found for id: " + request.projectId()));
 
         Task task = taskMapper.toEntity(request);
         task.setProject(project);
