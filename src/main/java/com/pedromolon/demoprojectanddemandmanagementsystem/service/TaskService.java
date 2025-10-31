@@ -1,6 +1,7 @@
 package com.pedromolon.demoprojectanddemandmanagementsystem.service;
 
 import com.pedromolon.demoprojectanddemandmanagementsystem.dto.request.TaskRequest;
+import com.pedromolon.demoprojectanddemandmanagementsystem.dto.request.TaskStatusRequest;
 import com.pedromolon.demoprojectanddemandmanagementsystem.dto.response.TaskResponse;
 import com.pedromolon.demoprojectanddemandmanagementsystem.entity.Project;
 import com.pedromolon.demoprojectanddemandmanagementsystem.entity.Task;
@@ -10,6 +11,7 @@ import com.pedromolon.demoprojectanddemandmanagementsystem.entity.specification.
 import com.pedromolon.demoprojectanddemandmanagementsystem.mapper.TaskMapper;
 import com.pedromolon.demoprojectanddemandmanagementsystem.repository.ProjectRepository;
 import com.pedromolon.demoprojectanddemandmanagementsystem.repository.TaskRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -54,6 +56,16 @@ public class TaskService {
         Page<Task> taskPage = taskRepository.findAll(spec, pageable);
 
         return taskPage.map(taskMapper::toResponse);
+    }
+
+    @Transactional
+    public TaskResponse updateTaskStatus(Long taskId, TaskStatusRequest request) {
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new EntityNotFoundException("Task not found for id: " + taskId));
+
+        task.setStatus(request.status());
+
+        return taskMapper.toResponse(taskRepository.save(task));
     }
 
 }

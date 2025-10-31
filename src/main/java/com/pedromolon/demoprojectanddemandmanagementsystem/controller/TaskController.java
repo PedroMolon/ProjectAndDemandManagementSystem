@@ -1,6 +1,7 @@
 package com.pedromolon.demoprojectanddemandmanagementsystem.controller;
 
 import com.pedromolon.demoprojectanddemandmanagementsystem.dto.request.TaskRequest;
+import com.pedromolon.demoprojectanddemandmanagementsystem.dto.request.TaskStatusRequest;
 import com.pedromolon.demoprojectanddemandmanagementsystem.dto.response.TaskResponse;
 import com.pedromolon.demoprojectanddemandmanagementsystem.entity.enums.Priority;
 import com.pedromolon.demoprojectanddemandmanagementsystem.entity.enums.Status;
@@ -45,6 +46,12 @@ public class TaskController {
         );
 
         return ResponseEntity.ok(tasks);
+    }
+
+    @PutMapping("/{taskId}/status")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<TaskResponse> updateTaskStatus(@PathVariable Long taskId, @Valid @RequestBody TaskStatusRequest request) {
+        return ResponseEntity.status(HttpStatus.OK).body(taskService.updateTaskStatus(taskId, request));
     }
 
 }
