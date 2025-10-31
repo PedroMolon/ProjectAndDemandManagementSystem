@@ -68,4 +68,13 @@ public class TaskService {
         return taskMapper.toResponse(taskRepository.save(task));
     }
 
+    @Transactional
+    public void deleteTask(Long taskId) {
+        if (!taskRepository.existsById(taskId)) {
+            throw new EntityNotFoundException("Task not found for id: " + taskId);
+        }
+
+        taskRepository.deleteById(taskId);
+    }
+
 }
