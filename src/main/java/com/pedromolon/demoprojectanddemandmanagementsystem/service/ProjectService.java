@@ -30,13 +30,7 @@ public class ProjectService {
     public Page<ProjectResponse> findAllProjects(Pageable pageable) {
         Page<Project> projectPage = projectRepository.findAll(pageable);
 
-        return projectPage.map(project -> new ProjectResponse(
-                project.getId(),
-                project.getName(),
-                project.getDescription(),
-                project.getStartDate(),
-                project.getEndDate()
-        ));
+        return projectPage.map(projectMapper::toResponse);
     }
 
     public Project findProjectById(Long id) {

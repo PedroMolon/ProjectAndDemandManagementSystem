@@ -11,8 +11,6 @@ public interface ProjectMapper {
 
     ProjectResponse toResponse(Project project);
 
-    @Mapping(source = "startDate", target = "startDate")
-    @Mapping(source = "endDate", target = "endDate")
     Project toEntity(ProjectRequest projectRequest);
 
 }

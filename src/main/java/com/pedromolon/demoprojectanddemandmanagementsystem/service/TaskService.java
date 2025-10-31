@@ -1,0 +1,37 @@
+package com.pedromolon.demoprojectanddemandmanagementsystem.service;
+
+import com.pedromolon.demoprojectanddemandmanagementsystem.dto.request.TaskRequest;
+import com.pedromolon.demoprojectanddemandmanagementsystem.dto.response.TaskResponse;
+import com.pedromolon.demoprojectanddemandmanagementsystem.entity.Project;
+import com.pedromolon.demoprojectanddemandmanagementsystem.entity.Task;
+import com.pedromolon.demoprojectanddemandmanagementsystem.mapper.TaskMapper;
+import com.pedromolon.demoprojectanddemandmanagementsystem.repository.ProjectRepository;
+import com.pedromolon.demoprojectanddemandmanagementsystem.repository.TaskRepository;
+import org.springframework.stereotype.Service;
+
+@Service
+public class TaskService {
+
+    private final TaskRepository taskRepository;
+    private final TaskMapper taskMapper;
+    private final ProjectRepository projectRepository;
+
+    public TaskService(TaskRepository taskRepository, TaskMapper taskMapper, ProjectRepository projectRepository) {
+        this.taskRepository = taskRepository;
+        this.taskMapper = taskMapper;
+        this.projectRepository = projectRepository;
+    }
+
+    public TaskResponse createTask(TaskRequest request) {
+        Project project = projectRepository.findById(request.projectId())
+                .orElseThrow(() -> new IllegalArgumentException("Project not found for id: " + request.projectId()));
+
+        Task task = taskMapper.toEntity(request);
+        task.setProject(project);
+
+        return taskMapper.toResponse(
+                taskRepository.save(task)
+        );
+    }
+
+}

@@ -2,8 +2,8 @@ CREATE TABLE project (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description VARCHAR(255),
-    startDate DATE,
-    endDate DATE
+    start_date DATE,
+    end_date DATE
 );
 
 CREATE TYPE task_status AS ENUM ('TODO', 'DOING', 'DONE');
