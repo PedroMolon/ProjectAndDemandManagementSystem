@@ -4,10 +4,17 @@ import com.pedromolon.demoprojectanddemandmanagementsystem.dto.request.TaskReque
 import com.pedromolon.demoprojectanddemandmanagementsystem.dto.response.TaskResponse;
 import com.pedromolon.demoprojectanddemandmanagementsystem.entity.Project;
 import com.pedromolon.demoprojectanddemandmanagementsystem.entity.Task;
+import com.pedromolon.demoprojectanddemandmanagementsystem.entity.enums.Priority;
+import com.pedromolon.demoprojectanddemandmanagementsystem.entity.enums.Status;
+import com.pedromolon.demoprojectanddemandmanagementsystem.entity.specification.TaskSpecification;
 import com.pedromolon.demoprojectanddemandmanagementsystem.mapper.TaskMapper;
 import com.pedromolon.demoprojectanddemandmanagementsystem.repository.ProjectRepository;
 import com.pedromolon.demoprojectanddemandmanagementsystem.repository.TaskRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TaskService {
@@ -22,6 +29,7 @@ public class TaskService {
         this.projectRepository = projectRepository;
     }
 
+    @Transactional
     public TaskResponse createTask(TaskRequest request) {
         Project project = projectRepository.findById(request.projectId())
                 .orElseThrow(() -> new IllegalArgumentException("Project not found for id: " + request.projectId()));
@@ -32,6 +40,20 @@ public class TaskService {
         return taskMapper.toResponse(
                 taskRepository.save(task)
         );
+    }
+
+    @Transactional(readOnly = true)
+    public Page<TaskResponse> findTaskWithFilters(
+            Status status,
+            Priority priority,
+            Long projectId,
+            Pageable pageable
+    ) {
+        Specification<Task> spec = TaskSpecification.filterTasks(status, priority, projectId);
+
+        Page<Task> taskPage = taskRepository.findAll(spec, pageable);
+
+        return taskPage.map(taskMapper::toResponse);
     }
 
 }
