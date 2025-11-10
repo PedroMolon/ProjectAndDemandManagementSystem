@@ -18,11 +18,36 @@ This is a RESTful API for managing projects and tasks, developed as a challenge 
 
 ### Prerequisites
 
-*   Java 21 or higher
-*   Maven 3.8 or higher
-*   PostgreSQL
+*   Java 21 or higher (if running directly without Docker)
+*   Maven 3.8 or higher (if running directly without Docker)
+*   Docker and Docker Compose (recommended)
 
-### Configuration
+### Running with Docker Compose (Recommended)
+
+1.  **Clone the repository:**
+    ```bash
+    git clone <repository-url>
+    cd demoProjectAndDemandManagementSystem
+    ```
+
+2.  **Create a `.env` file:**
+    Create a file named `.env` in the root directory of the project (where `docker-compose.yml` is located). This file will store your sensitive environment variables.
+
+    ```
+    DB_PASSWORD=your_database_password
+    JWT_SECRET=your_jwt_secret_key
+    ```
+    Replace `your_database_password` and `your_jwt_secret_key` with strong, unique values.
+
+3.  **Build and run the services:**
+    ```bash
+    docker-compose up --build
+    ```
+    This command will build the Docker images (if not already built), create the containers, and start the application and database services.
+
+    The application will be available at `http://localhost:8080`.
+
+### Running the Application Directly (without Docker)
 
 1.  **Clone the repository:**
     ```bash
@@ -31,27 +56,21 @@ This is a RESTful API for managing projects and tasks, developed as a challenge 
     ```
 
 2.  **Create the database:**
-    Create a PostgreSQL database with the name `demoproject`.
+    Ensure you have a PostgreSQL database running locally (e.g., on `localhost:5432`) with a database named `psm`.
 
-3.  **Configure the database connection:**
-    Open the `src/main/resources/application.yaml` file and update the datasource properties with your PostgreSQL credentials:
-    ```yaml
-    spring:
-      datasource:
-        url: jdbc:postgresql://localhost:5432/demoproject
-        username: your-username
-        password: your-password
+3.  **Set environment variables:**
+    Before running the application, set the `DB_PASSWORD` and `JWT_SECRET` environment variables in your shell:
+    ```bash
+    export DB_PASSWORD="your_database_password"
+    export JWT_SECRET="your_jwt_secret_key"
     ```
+    Replace `your_database_password` and `your_jwt_secret_key` with the actual values.
 
-### Running the Application
-
-You can run the application using the Maven wrapper:
-
-```bash
-./mvnw spring-boot:run
-```
-
-The application will be available at `http://localhost:8080`.
+4.  **Run the application:**
+    ```bash
+    ./mvnw spring-boot:run
+    ```
+    The application will be available at `http://localhost:8080`.
 
 ## API Endpoints
 

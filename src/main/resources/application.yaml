@@ -5,11 +5,10 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/psm
     username: postgres
-    password: '@MolonPedro0110'
+    password: ${DB_PASSWORD}
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
         ddl-auto: validate
     generate-ddl: true
     show-sql: true
@@ -18,7 +17,7 @@ spring:
 
 jwt:
   security:
-    secret: '@MolonPedro0110'
+    secret: ${JWT_SECRET}
 
 springdoc:
   swagger-ui:

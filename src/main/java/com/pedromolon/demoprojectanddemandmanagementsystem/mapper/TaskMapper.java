@@ -14,6 +14,9 @@ public interface TaskMapper {
     @Mapping(source = "user.name", target = "userName")
     TaskResponse toResponse(Task task);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "project", ignore = true)
+    @Mapping(target = "user", ignore = true)
     Task toEntity(TaskRequest request);
 
 }

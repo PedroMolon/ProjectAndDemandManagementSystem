@@ -13,6 +13,9 @@ public interface ProjectMapper {
     @Mapping(source = "user.name", target = "userName")
     ProjectResponse toResponse(Project project);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "tasks", ignore = true)
     Project toEntity(ProjectRequest projectRequest);
 
 }

@@ -156,16 +156,12 @@ public class TaskServiceTest {
     void quandoDeletarTarefa_deveRetornarSucesso() {
         Long taskId = 1L;
 
-        Task foundTask = new Task();
-        foundTask.setId(taskId);
-        foundTask.setTitle("Tarefa");
-
-        when(taskRepository.findById(taskId)).thenReturn(Optional.of(foundTask));
+        when(taskRepository.existsById(taskId)).thenReturn(true);
         doNothing().when(taskRepository).deleteById(taskId);
 
         taskService.deleteTask(taskId);
 
-        verify(taskRepository, times(1)).findById(taskId);
+        verify(taskRepository, times(1)).existsById(taskId);
         verify(taskRepository, times(1)).deleteById(taskId);
     }
 
