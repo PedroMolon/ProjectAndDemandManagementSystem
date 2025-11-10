@@ -58,6 +58,7 @@ public class User implements UserDetails {
                 .toList();
     }
 
+
     @Override
     public String getUsername() {
         return this.email;

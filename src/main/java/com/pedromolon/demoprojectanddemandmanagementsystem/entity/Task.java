@@ -1,5 +1,6 @@
 package com.pedromolon.demoprojectanddemandmanagementsystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.pedromolon.demoprojectanddemandmanagementsystem.entity.enums.Priority;
 import com.pedromolon.demoprojectanddemandmanagementsystem.entity.enums.Status;
 import jakarta.persistence.*;
@@ -36,10 +37,12 @@ public class Task {
     @Column(name = "due_date")
     private LocalDate dueDate;
 
+    @JsonBackReference("project-tasks")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
+    @JsonBackReference("user-tasks")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
