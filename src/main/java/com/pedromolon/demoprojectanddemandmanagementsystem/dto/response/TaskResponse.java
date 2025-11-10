@@ -14,6 +14,8 @@ public record TaskResponse(
         String description,
         Status status,
         Priority priority,
-        LocalDate dueDate
+        LocalDate dueDate,
+        Long userId,
+        String userName
 ) {
 }

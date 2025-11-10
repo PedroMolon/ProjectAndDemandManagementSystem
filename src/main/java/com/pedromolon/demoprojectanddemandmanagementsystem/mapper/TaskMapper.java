@@ -10,6 +10,8 @@ import org.mapstruct.Mapping;
 public interface TaskMapper {
 
     @Mapping(source = "project.id", target = "projectId")
+    @Mapping(source = "user.id", target = "userId")
+    @Mapping(source = "user.name", target = "userName")
     TaskResponse toResponse(Task task);
 
     Task toEntity(TaskRequest request);

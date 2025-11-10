@@ -5,6 +5,7 @@ import com.pedromolon.demoprojectanddemandmanagementsystem.dto.request.TaskStatu
 import com.pedromolon.demoprojectanddemandmanagementsystem.dto.response.TaskResponse;
 import com.pedromolon.demoprojectanddemandmanagementsystem.entity.Project;
 import com.pedromolon.demoprojectanddemandmanagementsystem.entity.Task;
+import com.pedromolon.demoprojectanddemandmanagementsystem.entity.User;
 import com.pedromolon.demoprojectanddemandmanagementsystem.entity.enums.Priority;
 import com.pedromolon.demoprojectanddemandmanagementsystem.entity.enums.Status;
 import com.pedromolon.demoprojectanddemandmanagementsystem.entity.specification.TaskSpecification;
@@ -32,12 +33,13 @@ public class TaskService {
     }
 
     @Transactional
-    public TaskResponse createTask(TaskRequest request) {
+    public TaskResponse createTask(User user, TaskRequest request) {
         Project project = projectRepository.findById(request.projectId())
                 .orElseThrow(() -> new EntityNotFoundException("Project not found for id: " + request.projectId()));
 
         Task task = taskMapper.toEntity(request);
         task.setProject(project);
+        task.setUser(user);
 
         return taskMapper.toResponse(
                 taskRepository.save(task)

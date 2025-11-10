@@ -19,3 +19,7 @@ spring:
 jwt:
   security:
     secret: '@MolonPedro0110'
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

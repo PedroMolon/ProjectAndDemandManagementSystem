@@ -1,0 +1,25 @@
+ALTER TABLE project
+ADD COLUMN user_id BIGINT;
+
+UPDATE project SET user_id = (SELECT id FROM users LIMIT 1) WHERE user_id IS NULL;
+
+ALTER TABLE project
+ALTER COLUMN user_id SET NOT NULL;
+
+ALTER TABLE project
+ADD CONSTRAINT fk_project_user
+FOREIGN KEY (user_id) REFERENCES users(id)
+ON DELETE CASCADE;
+
+ALTER TABLE task
+ADD COLUMN user_id BIGINT;
+
+UPDATE task SET user_id = (SELECT id FROM users LIMIT 1) WHERE user_id IS NULL;
+
+ALTER TABLE task
+ALTER COLUMN user_id SET NOT NULL;
+
+ALTER TABLE task
+ADD CONSTRAINT fk_task_user
+FOREIGN KEY (user_id) REFERENCES users(id)
+ON DELETE CASCADE;

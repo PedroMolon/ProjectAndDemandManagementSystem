@@ -3,6 +3,7 @@ package com.pedromolon.demoprojectanddemandmanagementsystem.controller;
 import com.pedromolon.demoprojectanddemandmanagementsystem.dto.request.TaskRequest;
 import com.pedromolon.demoprojectanddemandmanagementsystem.dto.request.TaskStatusRequest;
 import com.pedromolon.demoprojectanddemandmanagementsystem.dto.response.TaskResponse;
+import com.pedromolon.demoprojectanddemandmanagementsystem.entity.User;
 import com.pedromolon.demoprojectanddemandmanagementsystem.entity.enums.Priority;
 import com.pedromolon.demoprojectanddemandmanagementsystem.entity.enums.Status;
 import com.pedromolon.demoprojectanddemandmanagementsystem.service.TaskService;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,8 +29,8 @@ public class TaskController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<TaskResponse> createTask(@Valid @RequestBody TaskRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(taskService.createTask(request));
+    public ResponseEntity<TaskResponse> createTask(@AuthenticationPrincipal User user, @Valid @RequestBody TaskRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(taskService.createTask(user, request));
     }
 
     @GetMapping

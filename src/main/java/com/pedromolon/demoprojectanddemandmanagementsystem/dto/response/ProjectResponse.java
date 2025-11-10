@@ -10,6 +10,8 @@ public record ProjectResponse(
         String name,
         String description,
         LocalDate startDate,
-        LocalDate endDate
+        LocalDate endDate,
+        Long userId,
+        String userName
 ) {
 }

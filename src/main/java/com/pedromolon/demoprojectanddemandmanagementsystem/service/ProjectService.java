@@ -3,6 +3,7 @@ package com.pedromolon.demoprojectanddemandmanagementsystem.service;
 import com.pedromolon.demoprojectanddemandmanagementsystem.dto.request.ProjectRequest;
 import com.pedromolon.demoprojectanddemandmanagementsystem.dto.response.ProjectResponse;
 import com.pedromolon.demoprojectanddemandmanagementsystem.entity.Project;
+import com.pedromolon.demoprojectanddemandmanagementsystem.entity.User;
 import com.pedromolon.demoprojectanddemandmanagementsystem.mapper.ProjectMapper;
 import com.pedromolon.demoprojectanddemandmanagementsystem.repository.ProjectRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,9 +22,11 @@ public class ProjectService {
         this.projectMapper = projectMapper;
     }
 
-    public ProjectResponse createProject(ProjectRequest request) {
+    public ProjectResponse createProject(ProjectRequest request, User user) {
+        Project project = projectMapper.toEntity(request);
+        project.setUser(user);
         return projectMapper.toResponse(
-                projectRepository.save(projectMapper.toEntity(request))
+                projectRepository.save(project)
         );
     }
 
